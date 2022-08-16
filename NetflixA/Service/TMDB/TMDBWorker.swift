@@ -52,35 +52,39 @@ final class TMDBWorker {
     
     
     
-    func requestMovieDetailInfo(movieId: Int) -> Single<Any> {
-        return .create { (observer) in
+    func requestMovieDetailInfo(movieId: Int, success: @escaping (TMDBMovieDetailModel) -> Void, failure: @escaping (Error) -> Void) {
+        
+        let path: String = "/movie/\(movieId)"
+        let query: String = "?api_key=\(self.api_key)&language=\(self.language)"
+        
+        let url: URL = URL(string: self.api_base_url + path + query)!
+        
+        let request = Alamofire.Session.default.request(
+            url,
+            method: .get,
+            parameters: nil,
+            encoding: JSONEncoding.prettyPrinted,
+            headers: nil
+        )
+        
+        request.responseData{ response in
             
-            let path = "/movie/\(movieId)"
-            let parameters = "?api_key=\(self.api_key)&language=\(self.language)"
-             
-            let url = URL(string: self.api_base_url + path + parameters)!
-            
-            let request = self.session.request(
-                url,
-                method: .get,
-                parameters: nil,
-                encoding: JSONEncoding.prettyPrinted,
-                headers: nil)
-            request.responseData { (response) in
-                switch response.result {
-                case .success(let data):
-                    guard let model = try? JSONDecoder().decode(TMDBMovieDetailModel.self, from: data) else {
-                        observer(.failure(RxError.unknown))
-                        return
-                    }
-                    observer(.success(model))
-                case .failure(let error):
-                    observer(.failure(error))
+            switch response.result {
+            case .success(let data):
+                guard let model = try? JSONDecoder().decode(TMDBMovieDetailModel.self, from: data) else {
+                    failure(RxError.unknown)
+                    return
                 }
+                success(model)
+            case .failure(let error):
+                failure(error)
             }
             
-            return Disposables.create {}
         }
+        
+        
+        
     }
+    
 }
 
