@@ -12,6 +12,7 @@ final class HomeModel {
     private let disposeBag = DisposeBag()
     private let worker = TMDBWorker()
     
+    var recommendMovieModel: TMDBNowPlayingModel.Movie?
     var nowPlayingModel: TMDBNowPlayingModel?
     
     func requestRecommendMovie(completion: @escaping (TMDBNowPlayingModel.Movie) -> Void) {
@@ -24,6 +25,7 @@ final class HomeModel {
                         return
                     }
                     movie.posterPath = self.worker.img_base_url + "w500" + (movie.posterPath ?? "")
+                    self.recommendMovieModel = movie
                     completion(movie)
                 },
                 onFailure: { (error) in
@@ -66,7 +68,6 @@ final class HomeModel {
                         movie.posterPath = self.worker.img_base_url + "w200" + (movie.posterPath ?? "")
                         return movie
                     }
-                    self.nowPlayingModel = model
                     completion(model)
                 },
                 onFailure: { (error) in
@@ -87,7 +88,6 @@ final class HomeModel {
                         movie.posterPath = self.worker.img_base_url + "w200" + (movie.posterPath ?? "")
                         return movie
                     }
-                    self.nowPlayingModel = model
                     completion(model)
                 },
                 onFailure: { (error) in
@@ -108,8 +108,7 @@ final class HomeModel {
                         movie.posterPath = self.worker.img_base_url + "w200" + (movie.posterPath ?? "")
                         return movie
                     }
-                    self.nowPlayingModel = model
-//                    completion(model)
+                    completion(model)
                 },
                 onFailure: { (error) in
                     print(error)
@@ -129,7 +128,6 @@ final class HomeModel {
                         movie.posterPath = self.worker.img_base_url + "w200" + (movie.posterPath ?? "")
                         return movie
                     }
-                    self.nowPlayingModel = model
                     completion(model)
                 },
                 onFailure: { (error) in
@@ -150,7 +148,6 @@ final class HomeModel {
                         movie.posterPath = self.worker.img_base_url + "w200" + (movie.posterPath ?? "")
                         return movie
                     }
-                    self.nowPlayingModel = model
                     completion(model)
                 },
                 onFailure: { (error) in

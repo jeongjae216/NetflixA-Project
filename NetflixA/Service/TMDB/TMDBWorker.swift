@@ -82,7 +82,38 @@ final class TMDBWorker {
             
         }
         
+    }
+    
+    
+    func requestSimilarMovies(movieID: Int, success: @escaping (TMDBSimilarMoviesModel) -> Void, failure: @escaping (Error) -> Void) {
         
+        let path: String = "/movie/\(movieID)/similar"
+        let query: String = "?api_key=\(self.api_key)&language=\(self.language)"
+        
+        let url: URL = URL(string: self.api_base_url + path + query)!
+        
+        let request = Alamofire.Session.default.request(
+            url,
+            method: .get,
+            parameters: nil,
+            encoding: JSONEncoding.prettyPrinted,
+            headers: nil
+        )
+        
+        request.responseData{ response in
+            
+            switch response.result {
+            case .success(let data):
+                guard let model = try? JSONDecoder().decode(TMDBSimilarMoviesModel.self, from: data) else {
+                    failure(RxError.unknown)
+                    return
+                }
+                success(model)
+            case .failure(let error):
+                failure(error)
+            }
+            
+        }
         
     }
     

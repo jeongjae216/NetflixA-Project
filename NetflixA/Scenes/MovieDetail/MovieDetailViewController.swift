@@ -13,7 +13,9 @@ import SDWebImage
 
 class MovieDetailViewController: UIViewController {
     
-    private let model = HomeModel()
+    private let model = MovieDetailModel()
+    
+    var movieID: Int?
     
     private var previewView: MovieDetailPreviewView!
     private var informationView: MovieDetailInformationView!
@@ -78,6 +80,7 @@ class MovieDetailViewController: UIViewController {
         super.viewDidLoad()
         
         
+        /*
         self.model.requestRecommendMovie { (movie) in
             guard let posterPath = movie.posterPath,
                   let posterURL = URL(string: posterPath),
@@ -108,8 +111,44 @@ class MovieDetailViewController: UIViewController {
             }
             self.relatedContentsView.displayContents(contents)
         }
+    */
         
+        guard let movieID = self.movieID else {
+            return
+        }
+        self.model.requestMovieDetailInfo(of: movieID, completion: { movie in
+            guard let posterPath = movie.posterPath,
+                  let posterURL = URL(string: posterPath),
+                  let title = movie.title,
+                  let releaseDate = movie.releaseDate,
+                  let storyLine = movie.overview
+            else { return }
+            
+            //미리보기 영상
+            self.previewView.displayContent(posterImageURL: posterURL)
+            
+            //영화 정보
+            self.informationView.displayContent(
+                title: title,
+                releaseDate: releaseDate,
+                storyLine: storyLine,
+                cast: "이정재, 이선영, 이주연, 박지성",
+                creator: "이정재"
+            )
+        })
         
+        self.model.requestRelatedMovies(
+            of: movieID,
+            completion: { model in
+            let contents = model.results?.map { movie -> MovieDetailRelatedContentsView.ContentInfo in
+                let url = URL(string: movie.posterPath ?? "")!
+                let title = movie.title ?? ""
+                return MovieDetailRelatedContentsView.ContentInfo(posterImageURL: url, title: title)
+            }
+            self.relatedContentsView.displayContents(contents ?? [])
+        })
+        
+
     }
     
 }

@@ -20,7 +20,9 @@ class HomeViewController: UIViewController {
         self.mainView.recommendMovieView.delegate = self
         
         self.mainView.nowPlayingMovieListView.cellDidTap = { (index: Int) -> Void in
-            
+            guard let movies = self.model.nowPlayingModel?.results else { return }
+            guard let movieID = movies[index].id else { return }
+            self.routeToMovieDetail(movieID: movieID)
         }
         
         self.mainView.animationMovieListView.cellDidTap = { (index: Int) in
@@ -91,8 +93,9 @@ class HomeViewController: UIViewController {
     
     
     
-    private func routeToMovieDetail() {
+    private func routeToMovieDetail(movieID: Int) {
         let viewController = MovieDetailViewController()
+        viewController.movieID = movieID
         self.present(viewController, animated: true, completion: nil)
     }
     
@@ -133,7 +136,10 @@ extension HomeViewController: HomeUpsideViewDelegate {
 extension HomeViewController: RecommendMovieViewDelegate {
     
     func recommendMovieDetailButtonDidTap() {
-        self.routeToMovieDetail()
+        guard let model = self.model.recommendMovieModel,
+              let movieID = model.id
+        else { return }
+        self.routeToMovieDetail(movieID: movieID)
     }
     
     func recommendMovieMeaningButtonDidTap() {

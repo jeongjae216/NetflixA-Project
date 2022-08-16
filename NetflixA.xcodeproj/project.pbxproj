@@ -36,6 +36,8 @@
 		A480F6D527B3DAD40080E776 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A480F6D427B3DAD40080E776 /* SplashViewController.swift */; };
 		A480F6D827B528D40080E776 /* UIView+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = A480F6D727B528D40080E776 /* UIView+Border.swift */; };
 		A480F6DB27B531760080E776 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A480F6DA27B531760080E776 /* HomeViewController.swift */; };
+		A4855BD428ABAABC00E07721 /* MovieDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4855BD328ABAABC00E07721 /* MovieDetailModel.swift */; };
+		A4855BD628ABB16500E07721 /* TMDBSimilarMoviesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4855BD528ABB16500E07721 /* TMDBSimilarMoviesModel.swift */; };
 		A48F87A92858A51500B42C6D /* NewAndHotBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48F87A82858A51500B42C6D /* NewAndHotBasicCell.swift */; };
 		A48F87AB285F219500B42C6D /* New&HotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A48F87AA285F219500B42C6D /* New&HotView.swift */; };
 		A4B9281627A2C3BE004304D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B9281527A2C3BE004304D8 /* AppDelegate.swift */; };
@@ -78,6 +80,8 @@
 		A480F6D427B3DAD40080E776 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		A480F6D727B528D40080E776 /* UIView+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Border.swift"; sourceTree = "<group>"; };
 		A480F6DA27B531760080E776 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A4855BD328ABAABC00E07721 /* MovieDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailModel.swift; sourceTree = "<group>"; };
+		A4855BD528ABB16500E07721 /* TMDBSimilarMoviesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBSimilarMoviesModel.swift; sourceTree = "<group>"; };
 		A48F87A82858A51500B42C6D /* NewAndHotBasicCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAndHotBasicCell.swift; sourceTree = "<group>"; };
 		A48F87AA285F219500B42C6D /* New&HotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New&HotView.swift"; sourceTree = "<group>"; };
 		A4B9281227A2C3BE004304D8 /* NetflixA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetflixA.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +222,7 @@
 		A4657602283665CB0080F2FF /* MovieDetail */ = {
 			isa = PBXGroup;
 			children = (
+				A4855BD328ABAABC00E07721 /* MovieDetailModel.swift */,
 				A4657603283665F60080F2FF /* MovieDetailViewController.swift */,
 				A465760528366C650080F2FF /* SubViews */,
 			);
@@ -256,6 +261,7 @@
 			children = (
 				A47EBE0C2817FCE800025DA3 /* TMBDNowPlayingModel.swift */,
 				A457C3F9285385FD00F96CDE /* TMDBMovieDetailModel.swift */,
+				A4855BD528ABB16500E07721 /* TMDBSimilarMoviesModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -459,8 +465,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A480F6D827B528D40080E776 /* UIView+Border.swift in Sources */,
+				A4855BD428ABAABC00E07721 /* MovieDetailModel.swift in Sources */,
 				A47EBE132819836B00025DA3 /* New&HotUpsideView.swift in Sources */,
 				A432989028128D5A007CEFF9 /* New&HotViewController.swift in Sources */,
+				A4855BD628ABB16500E07721 /* TMDBSimilarMoviesModel.swift in Sources */,
 				A46575FB28228B530080F2FF /* StoredContentsListUpsideView.swift in Sources */,
 				A4657604283665F60080F2FF /* MovieDetailViewController.swift in Sources */,
 				A46575EF2822846C0080F2FF /* StoredContentsListViewController.swift in Sources */,
