@@ -9,13 +9,10 @@ import Foundation
 import UIKit
 import SnapKit
 import SDWebImage
+import RxSwift
+import RxCocoa
 
-protocol RecommendMovieViewDelegate {
-    func recommendMovieDetailButtonDidTap()
-    func recommendMovieMeaningButtonDidTap()
-    func recommendMoviePlayButtonDidTap()
-    func recommendMovieInformationButtonDidTap()
-}
+
 struct RecommendMovieViewModel {
     var posterURL: URL
     var title: String
@@ -26,7 +23,6 @@ class RecommendMovieView: UIView {
 //    var mainViewController: HomeViewController? = nil
     
     var cellDidTap: ((Int) -> Void)?
-    var delegate: RecommendMovieViewDelegate?
     
     private let posterView = UIImageView()
     private let posterDimLayer = CAGradientLayer()
@@ -40,6 +36,13 @@ class RecommendMovieView: UIView {
     private let meaningButton = UIButton()
     private let playButton = UIButton()
     private let informationButton = UIButton()
+    
+    private let disposeBag: DisposeBag = .init()
+    
+    var meaningButtonTapObservable: ControlEvent<Void> { self.meaningButton.rx.tap }
+    var playButtonTapObservable: ControlEvent<Void> { self.playButton.rx.tap }
+    var informationButtonTapObservable: ControlEvent<Void> { self.informationButton.rx.tap }
+    var movieDetailButtonTapObservable: ControlEvent<Void> { self.movieDetailButton.rx.tap }
     
     
     
@@ -128,7 +131,6 @@ class RecommendMovieView: UIView {
         self.meaningButton.setTitleColor(.white, for: .normal)
         self.meaningButton.backgroundColor = .black
         self.meaningButton.border(width: 1, color: .white, radius: 5)
-        self.meaningButton.addTarget(self, action: #selector(self.meaningButtonDidTap), for: .touchUpInside)
         
         
         self.buttonStackView.setCustomSpacing(30, after: meaningButton)
@@ -143,7 +145,6 @@ class RecommendMovieView: UIView {
         self.playButton.setTitleColor(.black, for: .normal)
         self.playButton.backgroundColor = .white
         self.playButton.border(width: 0, color: .black, radius: 5)
-        self.playButton.addTarget(self, action: #selector(self.playButtonDidTap), for: .touchUpInside)
         
         
         self.buttonStackView.setCustomSpacing(30, after: playButton)
@@ -158,7 +159,6 @@ class RecommendMovieView: UIView {
         self.informationButton.setTitleColor(.white, for: .normal)
         self.informationButton.backgroundColor = .black
         self.informationButton.border(width: 1, color: .white, radius: 5)
-        self.informationButton.addTarget(self, action: #selector(self.informationButtonDidTap), for: .touchUpInside)
         
         
         //영화 상세 정보
@@ -167,8 +167,6 @@ class RecommendMovieView: UIView {
             $0.width.centerX.top.equalToSuperview()
             $0.bottom.equalTo(self.buttonStackView.snp.top)
         }
-        self.movieDetailButton.addTarget(self, action: #selector(self.movieDetailButtonDidTap), for: .touchUpInside)
-        
         
         
     }
@@ -183,19 +181,5 @@ class RecommendMovieView: UIView {
         self.tagsLabel.text = model.tags.joined(separator: "*")
     }
     
-    
-    
-    @objc private func movieDetailButtonDidTap() {
-        self.delegate?.recommendMovieDetailButtonDidTap()
-    }
-    @objc private func meaningButtonDidTap() {
-        self.delegate?.recommendMovieMeaningButtonDidTap()
-    }
-    @objc private func playButtonDidTap() {
-        self.delegate?.recommendMoviePlayButtonDidTap()
-    }
-    @objc private func informationButtonDidTap() {
-        self.delegate?.recommendMovieInformationButtonDidTap()
-    }
     
 }

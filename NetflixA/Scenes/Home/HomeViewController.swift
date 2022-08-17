@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 
 class HomeViewController: UIViewController {
+    
+    private let disposeBag: DisposeBag = .init()
     
     private let model = HomeModel()
     private lazy var mainView: HomeView = .init()
@@ -17,7 +21,33 @@ class HomeViewController: UIViewController {
     override func loadView() {
         self.view = self.mainView
         self.mainView.homeupsideView.delegate = self
-        self.mainView.recommendMovieView.delegate = self
+        
+        
+        self.mainView.recommendMovieView.movieDetailButtonTapObservable
+            .subscribe(onNext: {
+                guard let model = self.model.recommendMovieModel,
+                      let movieID = model.id
+                else { return }
+                self.routeToMovieDetail(movieID: movieID)
+            })
+            .disposed(by: self.disposeBag)
+        self.mainView.recommendMovieView.meaningButtonTapObservable
+            .subscribe(onNext: {
+                print("meaningButtonDidTap")
+            })
+            .disposed(by: self.disposeBag)
+        self.mainView.recommendMovieView.playButtonTapObservable
+            .subscribe(onNext: {
+                print("playingButtonDidTap")
+            })
+            .disposed(by: self.disposeBag)
+        self.mainView.recommendMovieView.informationButtonTapObservable
+            .subscribe(onNext: {
+                print("informationButtonDidTap")
+            })
+            .disposed(by: self.disposeBag)
+        
+        
         
         self.mainView.nowPlayingMovieListView.cellDidTap = { (index: Int) -> Void in
             guard let movies = self.model.nowPlayingModel?.results else { return }
@@ -131,32 +161,6 @@ extension HomeViewController: HomeUpsideViewDelegate {
     }
     
 }
-
-
-extension HomeViewController: RecommendMovieViewDelegate {
-    
-    func recommendMovieDetailButtonDidTap() {
-        guard let model = self.model.recommendMovieModel,
-              let movieID = model.id
-        else { return }
-        self.routeToMovieDetail(movieID: movieID)
-    }
-    
-    func recommendMovieMeaningButtonDidTap() {
-        print(type(of: self), #function)
-    }
-    
-    func recommendMoviePlayButtonDidTap() {
-        print(type(of: self), #function)
-    }
-    
-    func recommendMovieInformationButtonDidTap() {
-        print(type(of: self), #function)
-    }
-    
-}
-
-
 
 
 extension TMDBNowPlayingModel.Movie {
